@@ -5,10 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//type Handler struct {
-//	services *service.Service
-//}
-
 type Handler struct {
 	services *service.Service
 }
@@ -20,7 +16,7 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.Default()
 
-	router.POST("/clients", h.createClient)
+	//router.POST("/clients", h.createClient)
 
 	return router
 }

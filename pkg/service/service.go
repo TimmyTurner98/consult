@@ -1,17 +1,18 @@
 package service
 
-import "github.com/TimmyTurner98/consult/pkg/modules"
+import (
+	"github.com/TimmyTurner98/consult/pkg/modules"
+	"github.com/TimmyTurner98/consult/pkg/repository"
+)
+
+type Client interface {
+	CreateClient(client modules.Client) (modules.Client, error)
+}
 
 type Service struct {
+	repos *repository.Repository
 }
 
-func NewService() *Service {
-	return &Service{}
-}
-
-// Имитируем создание клиента
-func (s *Service) CreateClient(client modules.Client) (modules.Client, error) {
-	// Здесь мы просто добавляем фиктивный ID и возвращаем клиента как будто он был создан
-	client.Id = 1      // Имитируем ID, который бы присвоил сервер БД
-	return client, nil // Возвращаем клиента как успешно созданного
+func NewService(repos *repository.Repository) *Service {
+	return &Service{repos: repos}
 }

@@ -1,1 +1,8 @@
 port: "8080"
+
+db:
+  username: "TimmyTurner"
+  host: "localhost"
+  password: "qwerty"
+  dbname: "pgconsult"
+  sslmode: "disable"
