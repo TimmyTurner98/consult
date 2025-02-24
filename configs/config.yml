@@ -1,7 +1,7 @@
 port: "8080"
 
 db:
-  username: "TimmyTurner"
+  username: "timmyturner"
   host: "localhost"
   password: "qwerty"
   dbname: "pgconsult"

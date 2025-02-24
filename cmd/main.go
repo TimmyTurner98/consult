@@ -1,22 +1,33 @@
 package main
 
 import (
+	"github.com/TimmyTurner98/consult/pkg/dbs/postgres"
 	"github.com/TimmyTurner98/consult/pkg/handler"
 	"github.com/TimmyTurner98/consult/pkg/repository"
 	"github.com/TimmyTurner98/consult/pkg/service"
 	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 )
 
 func main() {
-	repos := repository.NewRepository()
+	// Загружаем конфигурацию
+	if err := postgres.InitDBConfig(); err != nil {
+		logrus.Fatalf("❌ Ошибка загрузки конфигурации: %v", err)
+	}
+	// Подключаемся к БД
+	postgres.ConnectDB()
+	repos := repository.NewRepository(postgres.DB)
 
 	services := service.NewService(repos)
 
 	h := handler.NewHandler(services)
 
+	port := postgres.DBConfig().Server.Port
+
 	router := h.InitRoutes()
-	if err := router.Run(":" + viper.GetString("port")); err != nil {
-		logrus.Fatalf("error occured while running http server: %s", err.Error())
+
+	// Запускаем сервер
+	logrus.Infof("🚀 Сервер запущен на порту %s", port)
+	if err := router.Run(":" + port); err != nil {
+		logrus.Fatalf("❌ Ошибка при запуске сервера: %s", err.Error())
 	}
 }
